@@ -10,22 +10,23 @@ import com.bogdan.employee.model.Employee;
  */
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    private static final Map<Long, Employee> employees = new HashMap<>();
+    private final Map<Long, Employee> employees;
 
     public EmployeeRepositoryImpl() {
-	employees.put(1L, new Employee(1L, "Mr", "John Doe"));
-	employees.put(2L, new Employee(2L, "Mr", "White Snow"));
+	this.employees = new HashMap<>();
+	this.employees.put(1L, new Employee(1L, "Mr", "John Doe"));
+	this.employees.put(2L, new Employee(2L, "Mr", "White Snow"));
     }
 
     @Override
     public Employee findById(final Long id) {
-	return employees.get(id);
+	return this.employees.get(id);
     }
 
     @Override
-    public Employee addEmployee(Long id, String name) {
-	final Employee newEmployee = new Employee(id, name, "Default Title");
-	employees.put(id, newEmployee);
+    public Employee addEmployee(final Long id, final String name) {
+	final var newEmployee = new Employee(id, name, "nameIncognito");
+	this.employees.put(id, newEmployee);
 	return newEmployee;
     }
 

@@ -18,6 +18,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     @PostConstruct
     public void init(){
         this.employees.put(1L, Employee.builder().id(1L).build());
+        this.employees.put(2L, Employee.builder().id(2L).build());
     }
 
     @Override

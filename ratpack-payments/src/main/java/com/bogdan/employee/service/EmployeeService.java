@@ -1,15 +1,13 @@
 package com.bogdan.employee.service;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
-
-import io.vavr.control.Option;
-import ratpack.exec.Promise;
 import ratpack.func.Action;
 import ratpack.handling.Chain;
 import ratpack.handling.Handler;
-import ratpack.jackson.Jackson;
 
-import com.bogdan.JsonMapping;
+import com.bogdan.ApiService;
 import com.bogdan.employee.model.Employee;
 import com.bogdan.employee.repository.EmployeeRepository;
 import com.bogdan.employee.repository.EmployeeRepositoryProcessor;
@@ -17,42 +15,43 @@ import com.bogdan.employee.repository.EmployeeRepositoryProcessor;
 /**
  * @author bogdan.marcut 18/01/2021.
  */
-public class EmployeeService {
+public class EmployeeService implements ApiService {
 
     private final EmployeeRepositoryProcessor employeeRepositoryProcessor;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(final EmployeeRepository employeeRepository) {
 	this.employeeRepositoryProcessor = new EmployeeRepositoryProcessor(employeeRepository);
     }
 
-    public Action<Chain> employeeApi() {
+    @Override
+    public Action<Chain> buildServiceApi() {
 	return apiChain -> apiChain
-		.prefix("employees", employees());
-
+		.prefix("employees", this.employeesApi());
     }
 
-    private Action<Chain> employees() {
+    private Action<Chain> employeesApi() {
 	return chain -> chain
-		.get(":id", getEmployee())
-		.post("", addEmployee());
-
+		.get(":id", this.getEmployee())
+		.post("", this.addEmployee());
     }
 
     private Handler getEmployee() {
 	return ctx -> {
 	    final String employeeId = ctx.getPathTokens().get("id");
 
-	    ctx.render(JsonMapping.toJsonPromise(employeeRepositoryProcessor.findById(Long.valueOf(employeeId))));
+	    final CompletableFuture<Employee> employee = this.employeeRepositoryProcessor.findById(Long.valueOf(employeeId));
+	    this.renderResponse(ctx, employee);
 	};
     }
 
     private Handler addEmployee() {
 	return ctx -> {
-	    ctx.parse(Employee.class).then(
-		    newUser -> ctx.render(JsonMapping.toJsonPromise(employeeRepositoryProcessor.addEmployee(newUser.id, newUser.name))));
+	    ctx.parse(Employee.class)
+		    .then(employee -> {
+			final CompletionStage<Employee> newEmployee = this.employeeRepositoryProcessor.addEmployee(employee.id, employee.name);
+			this.renderResponse(ctx, newEmployee);
+		    });
 	};
     }
-
-
 
 }
