@@ -9,6 +9,6 @@ public interface EmployeeRepository {
 
     Employee findById(Long id);
 
-    Employee addEmployee(Long id, String name);
-    
+    Employee addEmployee(Employee employee);
+
 }

@@ -2,29 +2,33 @@ package com.bogdan.employee.model;
 
 import java.io.Serializable;
 
-import javax.annotation.concurrent.Immutable;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author bogdan.marcut 18/01/2021.
  */
-@Immutable
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
+@JsonSerialize
 @JsonDeserialize
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
 
-    public final Long id;
-    public final String title;
-    public final String name;
+    private Long id;
+    private String title;
+    private String name;
 
-    public Employee(Long id, String title, String name) {
-        this.id = id;
-        this.title = title;
-        this.name = name;
-    }
 }

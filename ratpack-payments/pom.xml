@@ -11,8 +11,11 @@
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
-        <ratpack.version>1.8.0</ratpack.version>
+        <ratpack.version>1.8.2</ratpack.version>
         <lombok.version>1.18.16</lombok.version>
+        <vavr.version>0.9.0</vavr.version>
+        <jackson.version>2.12.1</jackson.version>
+        <slf4j.version>1.7.28</slf4j.version>
     </properties>
 
     <dependencies>
@@ -37,28 +40,26 @@
             <version>${lombok.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.ratpack</groupId>
-            <artifactId>ratpack-jackson</artifactId>
-            <version>0.9.17</version>
-        </dependency>
-        <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
-            <version>0.9.0</version>
+            <version>${vavr.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr-jackson</artifactId>
-            <version>0.9.0</version>
+            <version>${vavr.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
-            <version>2.12.1</version>
+            <version>${jackson.version}</version>
         </dependency>
 
-
-
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

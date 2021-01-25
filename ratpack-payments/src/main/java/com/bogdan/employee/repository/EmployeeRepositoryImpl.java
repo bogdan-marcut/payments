@@ -3,6 +3,8 @@ package com.bogdan.employee.repository;
 import java.util.HashMap;
 import java.util.Map;
 
+import ratpack.http.ClientErrorException;
+
 import com.bogdan.employee.model.Employee;
 
 /**
@@ -24,10 +26,17 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public Employee addEmployee(final Long id, final String name) {
-	final var newEmployee = new Employee(id, name, "nameIncognito");
-	this.employees.put(id, newEmployee);
-	return newEmployee;
+    public Employee addEmployee(final Employee employee) {
+	if (employee == null || employee.getId() == null) {
+	    throw new ClientErrorException("Id is not informed") {
+		@Override
+		public int getClientErrorCode() {
+		    return 400;
+		}
+	    };
+	}
+	this.employees.put(employee.getId(), employee);
+	return employee;
     }
 
 }
