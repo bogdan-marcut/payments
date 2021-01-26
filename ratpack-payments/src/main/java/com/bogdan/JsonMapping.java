@@ -32,4 +32,8 @@ public class JsonMapping {
 	return JsonMapping.MAPPER.writeValueAsString(object);
     }
 
+    public static <T> T toObject(final String json, Class<T> toValueType) {
+        return JsonMapping.MAPPER.convertValue(json, toValueType);
+    }
+
 }
