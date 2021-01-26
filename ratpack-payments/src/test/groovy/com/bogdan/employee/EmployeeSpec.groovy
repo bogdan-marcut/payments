@@ -1,8 +1,6 @@
 package com.bogdan.employee
 
 import com.bogdan.Application
-import com.bogdan.JsonMapping
-import com.bogdan.employee.model.Employee
 import groovy.json.JsonSlurper
 import ratpack.test.MainClassApplicationUnderTest
 import ratpack.test.http.TestHttpClient
@@ -15,7 +13,7 @@ class EmployeeSpec extends Specification {
 
     def aut = new MainClassApplicationUnderTest(Application)
     @Delegate
-    TestHttpClient client = TestHttpClient.testHttpClient(aut)
+    TestHttpClient client = testHttpClient(aut)
 
     def "should get an employee by id"() {
         given:

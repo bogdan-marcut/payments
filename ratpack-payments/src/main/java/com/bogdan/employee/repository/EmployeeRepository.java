@@ -1,14 +1,14 @@
 package com.bogdan.employee.repository;
 
-import com.bogdan.employee.model.Employee;
+import com.bogdan.employee.model.EmployeeDto;
 
 /**
  * @author bogdan.marcut 18/01/2021.
  */
 public interface EmployeeRepository {
 
-    Employee findById(Long id);
+    EmployeeDto findById(Long id);
 
-    Employee addEmployee(Employee employee);
+    Long addEmployee(EmployeeDto employeeDto);
 
 }

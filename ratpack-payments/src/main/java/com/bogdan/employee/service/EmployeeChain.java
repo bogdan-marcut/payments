@@ -12,7 +12,7 @@ import ratpack.http.Status;
 import ratpack.http.internal.HttpHeaderConstants;
 
 import com.bogdan.JsonMapping;
-import com.bogdan.employee.model.Employee;
+import com.bogdan.employee.model.EmployeeDto;
 import com.bogdan.employee.repository.EmployeeRepository;
 import com.google.inject.Inject;
 
@@ -50,10 +50,10 @@ public class EmployeeChain implements Action<Chain> {
     }
 
     private Handler addEmployee() {
-	return ctx -> ctx.parse(Employee.class)
+	return ctx -> ctx.parse(EmployeeDto.class)
 		//.onError(this.buildErrorHttpResponse(ctx))
-		.map(employee -> this.employeeRepository.addEmployee(employee))
-		.then(this.buildEmployeeHttpResponse(ctx));
+		.map(this.employeeRepository::addEmployee)
+		.then(this.buildAddEmployeeHttpResponse(ctx));
     }
 
     private Action<Throwable> buildErrorHttpResponse(final Context ctx) {
@@ -67,10 +67,17 @@ public class EmployeeChain implements Action<Chain> {
 	};
     }
 
-    private Action<Employee> buildEmployeeHttpResponse(final Context ctx) {
-	return employee -> ctx
+    private Action<EmployeeDto> buildEmployeeHttpResponse(final Context ctx) {
+	return employeeDto -> ctx
 		.header(HttpHeaderConstants.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 		.getResponse()
-		.send(JsonMapping.toJson(employee));
+		.send(JsonMapping.toJson(employeeDto));
+    }
+
+    private Action<Long> buildAddEmployeeHttpResponse(final Context ctx) {
+	return employeeId -> ctx
+		.header(HttpHeaderConstants.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+		.getResponse()
+		.send(JsonMapping.toJson(employeeId));
     }
 }
