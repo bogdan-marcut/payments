@@ -6,6 +6,7 @@ import ratpack.func.Action;
 import ratpack.guice.BindingsSpec;
 import ratpack.guice.Guice;
 import ratpack.handling.Chain;
+import ratpack.handling.RequestLogger;
 import ratpack.hikari.HikariModule;
 import ratpack.server.RatpackServer;
 import ratpack.server.RatpackServerSpec;
@@ -62,7 +63,7 @@ public class Application {
 
     private static Action<Chain> buildChain() {
 	return chain -> chain
-		//.all(RequestLogger.ncsa())
+		.all(RequestLogger.ncsa())
 		.prefix("api", buildApi());
     }
 

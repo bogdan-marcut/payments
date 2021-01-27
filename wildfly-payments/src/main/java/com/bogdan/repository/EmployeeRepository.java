@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface EmployeeRepository {
 
     Optional<EmployeeDto> findById(Long id);
+
+    Optional<Integer> addEmployee(EmployeeDto employee);
 }

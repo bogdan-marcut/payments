@@ -51,7 +51,7 @@ public class EmployeeChain implements Action<Chain> {
 
     private Handler addEmployee() {
 	return ctx -> ctx.parse(EmployeeDto.class)
-		//.onError(this.buildErrorHttpResponse(ctx))
+		.onError(this.buildErrorHttpResponse(ctx))
 		.map(this.employeeRepository::addEmployee)
 		.then(this.buildAddEmployeeHttpResponse(ctx));
     }

@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 @Transactional(Transactional.TxType.REQUIRED)
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    @PersistenceContext(unitName = "pu-tol-db")
+    @PersistenceContext(unitName = "pu-db")
     private EntityManager entityManager;
 
     @Override
@@ -23,11 +23,20 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
 	final EmployeeEntity value = this.entityManager.find(EmployeeEntity.class, id);
 	return Optional.ofNullable(value)
-		.map(employeeEntity -> EmployeeDto.builder()
-			.id(employeeEntity.getId())
-			.name(employeeEntity.getName())
-			.title(employeeEntity.getTitle())
-			.build());
+		.map(this::mapEmployeeEntityToDto);
+    }
+
+    private EmployeeDto mapEmployeeEntityToDto(final EmployeeEntity employeeEntity) {
+	return EmployeeDto.builder()
+		.id(employeeEntity.getId())
+		.name(employeeEntity.getName())
+		.title(employeeEntity.getTitle())
+		.build();
+    }
+
+    @Override
+    public Optional<Integer> addEmployee(final EmployeeDto employee) {
+	return Optional.empty();
     }
 
 }
