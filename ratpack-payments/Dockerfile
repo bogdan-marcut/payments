@@ -1,6 +1,6 @@
 FROM openjdk:11.0-jre
 
-ENV RATPACK_DB_URL jdbc:mysql://10.5.0.2:3306/payments
+ENV JDBC_URL jdbc:mysql://10.5.0.2:3306/payments
 
 COPY ./target/ratpack-payments.jar /tmp/
 

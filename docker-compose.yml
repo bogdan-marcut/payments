@@ -3,11 +3,11 @@ services:
   mysql:
     image: mysql:8.0.23
     ports:
-    - "3306:3306"
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=pass
     volumes:
-    - ./volumes/mysql:/var/lib/mysql
+      - ./volumes/mysql:/var/lib/mysql
     cpus: "0.5"
     mem_limit: 500m
     networks:
@@ -18,12 +18,25 @@ services:
     environment:
       - RATPACK_DB_URL=jdbc:mysql://10.5.0.2:3306/payments
     ports:
-    - "5050:5050"
+      - "5050:5050"
+    cpus: "1"
+    mem_limit: 1000m
+    networks:
+      local-net:
+        ipv4_address: 10.5.0.3
+    depends_on:
+      - mysql
+  micronaut:
+    build: ./micronaut-payments/.
+    environment:
+      - JDBC_URL=jdbc:mysql://10.5.0.2:3306/payments
+    ports:
+      - "6060:6060"
     cpus: "0.5"
     mem_limit: 500m
     networks:
       local-net:
-        ipv4_address: 10.5.0.3
+        ipv4_address: 10.5.0.4
     depends_on:
       - mysql
 

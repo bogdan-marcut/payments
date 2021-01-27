@@ -1,12 +1,11 @@
 package com.bogdan;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Optional;
+
 import ratpack.func.Action;
 import ratpack.guice.BindingsSpec;
 import ratpack.guice.Guice;
 import ratpack.handling.Chain;
-import ratpack.handling.RequestLogger;
 import ratpack.hikari.HikariModule;
 import ratpack.server.RatpackServer;
 import ratpack.server.RatpackServerSpec;
@@ -21,8 +20,6 @@ import com.zaxxer.hikari.HikariConfig;
  * @author bogdan.marcut 18/01/2021.
  */
 public class Application {
-
-    private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     private static final int PORT = 5050;
 
@@ -51,17 +48,21 @@ public class Application {
 
     private static Action<HikariConfig> generateDatabaseConfig() {
 	return hikariConfig -> {
-	    logger.info("DB URL {}", System.getenv("RATPACK_DB_URL"));
-	    hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-	    hikariConfig.setJdbcUrl(System.getenv("RATPACK_DB_URL"));
-	    hikariConfig.setUsername("root");
-	    hikariConfig.setPassword("pass");
+	    hikariConfig.setDriverClassName(getEnv("RATPACK_DB_DRIVER", "com.mysql.cj.jdbc.Driver"));
+	    hikariConfig.setJdbcUrl(getEnv("RATPACK_DB_URL", "jdbc:mysql://127.0.0.1:3306/payments"));
+	    hikariConfig.setUsername(getEnv("RATPACK_DB_USER", "root"));
+	    hikariConfig.setPassword(getEnv("RATPACK_DB_PASS", "pass"));
 	};
+    }
+
+    private static String getEnv(final String key, final String defaultValue) {
+	return Optional.ofNullable(System.getenv(key))
+		.orElse(defaultValue);
     }
 
     private static Action<Chain> buildChain() {
 	return chain -> chain
-		.all(RequestLogger.ncsa())
+		//.all(RequestLogger.ncsa())
 		.prefix("api", buildApi());
     }
 
