@@ -1,29 +1,33 @@
 package com.bogdan.repository;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  * @author Bogdan Marcut 19/01/2021.
  */
 @Dependent
+@Transactional(Transactional.TxType.REQUIRED)
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    private final Map<Long, Employee> employees = new HashMap<>();
-
-    @PostConstruct
-    public void init(){
-        this.employees.put(1L, Employee.builder().id(1L).build());
-        this.employees.put(2L, Employee.builder().id(2L).build());
-    }
+    @PersistenceContext(unitName = "pu-tol-db")
+    private EntityManager entityManager;
 
     @Override
-    public Optional<Employee> findById(final Long id){
-        return Optional.ofNullable(employees.get(id));
+    @Transactional
+    public Optional<EmployeeDto> findById(final Long id) {
+
+	final EmployeeEntity value = this.entityManager.find(EmployeeEntity.class, id);
+	return Optional.ofNullable(value)
+		.map(employeeEntity -> EmployeeDto.builder()
+			.id(employeeEntity.getId())
+			.name(employeeEntity.getName())
+			.title(employeeEntity.getTitle())
+			.build());
     }
 
 }

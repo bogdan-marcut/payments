@@ -39,6 +39,19 @@ services:
         ipv4_address: 10.5.0.4
     depends_on:
       - mysql
+  wildfly:
+    build: ./wildfly-payments/.
+    environment:
+      - JDBC_URL=jdbc:mysql://10.5.0.2:3306/payments
+    ports:
+      - "8080:8080"
+    cpus: "0.5"
+    mem_limit: 500m
+    networks:
+      local-net:
+        ipv4_address: 10.5.0.5
+    depends_on:
+      - mysql
 
 networks:
   local-net:

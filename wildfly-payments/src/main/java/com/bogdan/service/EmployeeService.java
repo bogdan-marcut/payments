@@ -11,9 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import jdk.jfr.ContentType;
-
-import com.bogdan.repository.Employee;
+import com.bogdan.repository.EmployeeDto;
 import com.bogdan.repository.EmployeeRepository;
 
 /**
@@ -30,10 +28,10 @@ public class EmployeeService {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEmployee(@PathParam("id") final Long id) {
-        final Optional<Employee> optionalEmployee = this.employeeRepository.findById(id);
+	final Optional<EmployeeDto> optionalEmployee = this.employeeRepository.findById(id);
 
-        return optionalEmployee.map(employee -> Response.ok(employee).build())
-                .orElse(Response.serverError().build());
+	return optionalEmployee.map(employeeDto -> Response.ok(employeeDto).build())
+		.orElse(Response.serverError().build());
     }
 
 }
