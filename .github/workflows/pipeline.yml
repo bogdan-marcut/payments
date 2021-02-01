@@ -12,8 +12,9 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./ratpack-payments
 
     steps:
     - uses: actions/checkout@v2
@@ -22,8 +23,8 @@ jobs:
       with:
         java-version: 11
     - name: Grant execute permission for gradlew
-      run: chmod +x ./ratpack-payments/gradlew
+      run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./ratpack-payments/gradlew build
+      run: ./gradlew build
     - name: Test with Gradle
-      run: ./ratpack-payments/gradlew test
+      run: ./gradlew test
