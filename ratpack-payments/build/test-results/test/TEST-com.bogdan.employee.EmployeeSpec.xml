@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.bogdan.employee.EmployeeSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-02-01T00:47:35" hostname="DESKTOP-F7V1MLB" time="2.778">
+  <properties/>
+  <testcase name="should get an employee by id" classname="com.bogdan.employee.EmployeeSpec" time="2.778"/>
+  <system-out><![CDATA[ INFO [Test worker] - Starting server...
+ INFO [Test worker] - Building registry...
+ INFO [Test worker] - HikariPool-1 - Starting...
+ INFO [Test worker] - HikariPool-1 - Start completed.
+ INFO [Test worker] - Initializing 1 services...
+ INFO [Test worker] - Ratpack started (development) for http://localhost:52064
+ INFO [ratpack-compute-4-3] - 
+                                      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@  @@@@  @@  @@    @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@    @@  @@  @@@@  @@@@@@@@@@
+@@@@@@@@@@        @@  @  @  @@@@@@@@@@
+@@@@@@@@@@        @@        @@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Thank you for using jOOQ 3.14.6
+                                      
+ INFO [ratpack-compute-4-3] - 127.0.0.1 - - [01/Feb/2021:01:47:37 +0100] "GET /api/employee/1 HTTP/1.1" 200 39 id=eca699e1-0b65-4172-d62d-074c7dee0fa4
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,5 +1,8 @@
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: "io.ratpack.ratpack-java"
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'com.bogdan'
 version = '1.0-SNAPSHOT'
@@ -9,25 +12,73 @@ description = """"""
 sourceCompatibility = 11
 targetCompatibility = 11
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.ratpack:ratpack-gradle:1.8.2"
+        classpath 'org.jooq:jooq-codegen:3.14.6'
+        classpath 'mysql:mysql-connector-java:8.0.23'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
 
 repositories {
-    maven { url "https://repo.maven.apache.org/maven2" }
+    jcenter()
 }
 
 dependencies {
-    compile group: 'io.ratpack', name: 'ratpack-core', version: '1.8.2'
-    compile group: 'io.ratpack', name: 'ratpack-guice', version: '1.8.2'
-    compile group: 'io.ratpack', name: 'ratpack-hikari', version: '1.8.2'
-    compile group: 'io.ratpack', name: 'ratpack-gradle', version: '1.8.2'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
-    compile group: 'io.vavr', name: 'vavr', version: '0.9.0'
-    compile group: 'io.vavr', name: 'vavr-jackson', version: '0.9.0'
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: '2.12.1'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.28'
-    compile group: 'org.jooq', name: 'jooq', version: '3.14.6'
-    compile group: 'org.jooq', name: 'jooq-meta', version: '3.14.6'
-    compile group: 'org.jooq', name: 'jooq-codegen', version: '3.14.6'
-    testCompile(group: 'io.ratpack', name: 'ratpack-groovy-test', version: '1.8.2')
-    testCompile group: 'org.spockframework', name: 'spock-core', version: '2.0-M4-groovy-3.0'
+    compile 'io.ratpack:ratpack-guice:1.8.2'
+    compile 'io.ratpack:ratpack-hikari:1.8.2'
+
+    compile 'io.vavr:vavr:0.9.0'
+    compile 'io.vavr:vavr-jackson:0.9.0'
+
+    compile 'org.jooq:jooq:3.14.6'
+    compile 'org.jooq:jooq-meta:3.14.6'
+    compile 'mysql:mysql-connector-java:8.0.23'
+
+    runtime 'org.slf4j:slf4j-log4j12:1.7.28'
+
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    testCompile "io.ratpack:ratpack-groovy-test:1.8.2"
+    testCompile 'org.spockframework:spock-core:1.3-groovy-2.5'
+    testCompile 'cglib:cglib-sample:3.3.0'
+    testCompile 'org.objenesis:objenesis-parent:3.1'
+}
+
+jar {
+    archivesBaseName = 'ratpack-payments'
+    project.version = ''
+}
+
+mainClassName = 'com.bogdan.Application'
+
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
+task jooqCodegen {
+    doLast {
+        def configuration = new Configuration()
+                .withJdbc(new Jdbc()
+                        .withDriver("com.mysql.cj.jdbc.Driver")
+                        .withUrl("jdbc:mysql://127.0.0.1:3306/payments")
+                        .withUser("root")
+                        .withPassword("pass"))
+                .withGenerator(new Generator()
+                        .withDatabase(new Database()
+                                .withName("org.jooq.meta.mysql.MySQLDatabase")
+                                .withIncludes(".*")
+                                .withInputSchema("payments"))
+                        .withGenerate(new Generate()
+                                .withPojos(true)
+                                .withDaos(false))
+                        .withTarget(new Target()
+                                .withPackageName("com.bogdan.jooq")
+                                .withDirectory("$projectDir/src/main/java")))
+        GenerationTool.generate(configuration)
+    }
 }

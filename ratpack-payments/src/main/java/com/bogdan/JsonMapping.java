@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 /**
  * @author Bogdan Marcut 18/01/2021.
@@ -19,7 +18,6 @@ public class JsonMapping {
 
     private static ObjectMapper configureMapping() {
 	return new ObjectMapper()
-		.registerModule(new ParameterNamesModule())
 		.registerModule(new Jdk8Module())
 		.registerModule(new JavaTimeModule());
     }
@@ -32,8 +30,8 @@ public class JsonMapping {
 	return JsonMapping.MAPPER.writeValueAsString(object);
     }
 
-    public static <T> T toObject(final String json, Class<T> toValueType) {
-        return JsonMapping.MAPPER.convertValue(json, toValueType);
+    public static <T> T toObject(final String json, final Class<T> toValueType) {
+	return JsonMapping.MAPPER.convertValue(json, toValueType);
     }
 
 }
