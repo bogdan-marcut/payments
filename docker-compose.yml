@@ -17,7 +17,7 @@ services:
   ratpack:
     build: ./ratpack-payments/.
     environment:
-      - RATPACK_DB_URL=jdbc:mysql://10.5.0.2:3306/payments
+      RATPACK_DB_URL: jdbc:mysql://10.5.0.2:3306/payments
     ports:
       - "5050:5050"
     cpus: "1"
@@ -30,7 +30,7 @@ services:
   micronaut:
     build: ./micronaut-payments/.
     environment:
-      - JDBC_URL=jdbc:mysql://10.5.0.2:3306/payments
+      JDBC_URL: jdbc:mysql://10.5.0.2:3306/payments
     ports:
       - "6060:6060"
     cpus: "0.5"
@@ -43,7 +43,7 @@ services:
   wildfly:
     build: ./wildfly-payments/.
     environment:
-      - JDBC_URL=jdbc:mysql://10.5.0.2:3306/payments
+      JDBC_URL: jdbc:mysql://10.5.0.2:3306/payments
     ports:
       - "8080:8080"
     cpus: "0.5"
