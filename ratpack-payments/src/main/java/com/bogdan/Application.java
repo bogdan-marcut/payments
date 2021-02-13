@@ -15,6 +15,7 @@ import ratpack.server.ServerConfigBuilder;
 
 import com.bogdan.employee.EmployeeModule;
 import com.bogdan.employee.service.EmployeeChain;
+import com.bogdan.flyway.FlywayModule;
 import com.zaxxer.hikari.HikariConfig;
 
 /**
@@ -43,6 +44,7 @@ public class Application {
 
     private static Action<BindingsSpec> buildDependencies() {
 	return bindings -> bindings
+		.module(FlywayModule.class)
 		.module(HikariModule.class, generateDatabaseConfig())
 		.module(EmployeeModule.class);
     }
