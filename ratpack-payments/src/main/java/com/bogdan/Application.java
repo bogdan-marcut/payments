@@ -52,7 +52,7 @@ public class Application {
     private static Action<HikariConfig> generateDatabaseConfig() {
 	return hikariConfig -> {
 	    hikariConfig.setDriverClassName(getEnv("RATPACK_DB_DRIVER", "com.mysql.cj.jdbc.Driver"));
-	    hikariConfig.setJdbcUrl(getEnv("RATPACK_DB_URL", "jdbc:mysql://127.0.0.1:3306/payments"));
+	    hikariConfig.setJdbcUrl(getEnv("RATPACK_DB_URL", "jdbc:mysql://localhost:3306/payments"));
 	    hikariConfig.setUsername(getEnv("RATPACK_DB_USER", "root"));
 	    hikariConfig.setPassword(getEnv("RATPACK_DB_PASS", "pass"));
 	};

@@ -1,7 +1,7 @@
 FROM openjdk:11.0-jre
 
-ENV JDBC_URL jdbc:mysql://10.5.0.2:3306/payments
+ENV JDBC_URL jdbc:mysql://localhost:3306/payments
 
-COPY ./target/ratpack-payments.jar /tmp/
+COPY ./build/libs/ratpack-payments-all.jar /tmp/
 
 ENTRYPOINT ["java", "-jar", "/tmp/ratpack-payments-all.jar"]
