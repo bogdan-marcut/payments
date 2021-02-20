@@ -16,6 +16,10 @@ import ratpack.server.ServerConfigBuilder;
 import com.bogdan.employee.EmployeeModule;
 import com.bogdan.employee.service.EmployeeChain;
 import com.bogdan.flyway.FlywayModule;
+import com.bogdan.metrics.MetricsModule;
+import com.bogdan.metrics.service.MetricsChain;
+import com.bogdan.status.MonitoringModule;
+import com.bogdan.status.service.MonitoringChain;
 import com.zaxxer.hikari.HikariConfig;
 
 /**
@@ -46,7 +50,10 @@ public class Application {
 	return bindings -> bindings
 		.module(FlywayModule.class)
 		.module(HikariModule.class, generateDatabaseConfig())
-		.module(EmployeeModule.class);
+		.module(MetricsModule.class)
+		.module(MonitoringModule.class)
+		.module(EmployeeModule.class)
+		;
     }
 
     private static Action<HikariConfig> generateDatabaseConfig() {
@@ -71,7 +78,10 @@ public class Application {
 
     private static Action<Chain> buildApi() {
 	return chain -> chain
-		.insert(EmployeeChain.class);
+		.insert(MetricsChain.class)
+		.insert(MonitoringChain.class)
+		.insert(EmployeeChain.class)
+		;
     }
 
 }
