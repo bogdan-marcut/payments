@@ -88,7 +88,7 @@ services:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
   grafana:
-    image: grafana/grafana:7.4.1
+    image: grafana/grafana:7.4.2
     depends_on:
       - prometheus
     ports:
