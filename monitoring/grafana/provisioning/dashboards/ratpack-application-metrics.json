@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "VAR_APPLICATION",
-      "type": "constant",
-      "label": "application",
-      "value": "ratpack",
-      "description": ""
-    }
-  ],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "7.4.1"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -64,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1613862439386,
+  "iteration": 1613866005151,
   "links": [],
   "panels": [
     {
@@ -130,7 +80,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.1",
+      "pluginVersion": "7.4.2",
       "targets": [
         {
           "expr": "sum(up{job=~\"$application\"})",
@@ -195,7 +145,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.1",
+      "pluginVersion": "7.4.2",
       "targets": [
         {
           "expr": "$version",
@@ -258,7 +208,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.1",
+      "pluginVersion": "7.4.2",
       "targets": [
         {
           "expr": "histogram_quantile(0.95, sum(rate(http_server_response_time_seconds_bucket{app=~\"$application\", appVersion=~\"$version\"}[$__range])) by (le))",
@@ -326,7 +276,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "7.4.1",
+      "pluginVersion": "7.4.2",
       "targets": [
         {
           "expr": "sum(rate(http_server_response_status_count_beans_total{app=~\"$application\", appVersion=~\"$version\", response!~\"^(20|30).*\"}[$__range])) / \nsum(rate(http_server_response_status_count_beans_total{app=~\"$application\", appVersion=~\"$version\"}[$__range]))",
@@ -342,7 +292,7 @@
       "type": "gauge"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -393,7 +343,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.1",
+      "pluginVersion": "7.4.2",
       "targets": [
         {
           "expr": "sum(system_cpu_usage{job=~\"$application\"}) / \nsum(system_cpu_count{job=~\"$application\"})",
@@ -791,7 +741,7 @@
       "type": "row"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -883,7 +833,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -975,7 +925,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1065,7 +1015,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1194,25 +1144,17 @@
         "hide": 2,
         "label": null,
         "name": "application",
-        "query": "${VAR_APPLICATION}",
+        "query": "ratpack",
         "skipUrlSync": false,
-        "type": "constant",
-        "current": {
-          "value": "${VAR_APPLICATION}",
-          "text": "${VAR_APPLICATION}",
-          "selected": false
-        },
-        "options": [
-          {
-            "value": "${VAR_APPLICATION}",
-            "text": "${VAR_APPLICATION}",
-            "selected": false
-          }
-        ]
+        "type": "constant"
       },
       {
         "allValue": "",
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "$datasource",
         "definition": "label_values(system_cpu_count{app=~\"$application\"}, appVersion)",
         "description": null,
@@ -1247,5 +1189,5 @@
   "timezone": "",
   "title": "Ratpack Application Metrics",
   "uid": "Bpm48jEGz",
-  "version": 9
+  "version": 1
 }
