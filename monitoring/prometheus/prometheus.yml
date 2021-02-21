@@ -33,6 +33,7 @@ scrape_configs:
       - targets: [ 'node-exporter:9100' ]
 
   - job_name: 'ratpack'
+    scrape_interval: 5s
     dns_sd_configs:
       - names:
           - 'tasks.ratpack'
